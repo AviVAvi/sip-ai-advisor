@@ -1,8 +1,15 @@
 # ---- Imports ----
+import os
+from dotenv import load_dotenv
 import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
 import openai
+
+load_dotenv()
+
+# ---- OpenAI Setup ----
+client = openai.OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
 # ---- Title ----
 st.title("📈 SIP Investment + AI Advisor")
@@ -37,8 +44,6 @@ plt.legend()
 st.pyplot(plt)
 
 # ---- AI Financial Advisor ----
-openai.api_key = st.secrets["OPENAI_API_KEY"]
-
 prompt = f"""
 My SIP is ₹{sip} per month for {years} years with an expected annual return of {annual_rate}%.
 
@@ -50,7 +55,7 @@ Based on this, what advice would you give me as an AI financial advisor? Please 
 
 if st.button("💡 Get AI Investment Advice"):
     with st.spinner("Thinking..."):
-        response = openai.ChatCompletion.create(
+        response = client.chat.completions.create(
             model="gpt-4",
             messages=[
                 {"role": "system", "content": "You are a professional financial advisor."},
