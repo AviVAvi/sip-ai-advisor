@@ -56,7 +56,7 @@ Based on this, what advice would you give me as an AI financial advisor? Please 
 if st.button("💡 Get AI Investment Advice"):
     with st.spinner("Thinking..."):
         response = client.chat.completions.create(
-            model="gpt-4",
+            model="gpt-3.5-turbo",
             messages=[
                 {"role": "system", "content": "You are a professional financial advisor."},
                 {"role": "user", "content": prompt}
