@@ -5,6 +5,19 @@ import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
 import openai
+from openai import RateLimitError
+
+try:
+    response = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "user", "content": "Your question here"}
+        ]
+    )
+    st.write(response.choices[0].message.content)
+except RateLimitError:
+    st.error("Rate limit exceeded. Please wait and try again later.")
+
 
 load_dotenv()
 
